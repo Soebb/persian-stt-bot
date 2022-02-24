@@ -54,6 +54,7 @@ async def from_tg_files(_, m):
     output_name = media.rsplit('.', 1)[0] + ".txt"
     transcribe(media, output_name)
     await m.reply_document(output_name)
+    os.remove(media)
 
 
 Bot.run()
