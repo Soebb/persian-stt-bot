@@ -40,11 +40,20 @@ async def start(bot, update):
 
 @Bot.on_message(filters.private & filters.text)
 async def from_yturl_or_local_file(_, m):
-    output = m.
+    output_name = f"transcript{m.message_id}.txt"
     await m.reply("Processing..")
-    transcribe(m.text, output)
-    await m.reply_document(output)
+    transcribe(m.text, output_name)
+    await m.reply_document(output_name)
 
+
+@Bot.on_message(filters.private & filters.media)
+async def from_tg_files(_, m):
+    msg = await m.reply("Downloading..")
+    media = await m.download()
+    await msg.edit("Processing..")
+    output_name = media.rsplit('.', 1)[0] + ".txt"
+    transcribe(media, output_name)
+    await m.reply_document(output_name)
 
 
 Bot.run()
