@@ -51,7 +51,7 @@ async def from_tg_files(_, m):
     msg = await m.reply("Downloading..")
     media = await m.download()
     await msg.edit("Processing..")
-    output_name = media.rsplit('.', 1)[0] + ".txt"
+    output_name = os.path.basename(media).rsplit('.', 1)[0] + ".txt"
     transcribe(media, output_name)
     await m.reply_document(output_name)
     os.remove(media)
