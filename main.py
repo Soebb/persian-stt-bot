@@ -1,12 +1,11 @@
-import os, re
-import pyppdf
-from pyppeteer.errors import PageError, NetworkError, TimeoutError
+import os
+from transcribe_anything.api import transcribe
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-BOT_TOKEN = os.environ.get("BOT_TOKEN")
-API_ID = os.environ.get("API_ID")
-API_HASH = os.environ.get("API_HASH")
+BOT_TOKEN = ""
+API_ID = ""
+API_HASH = ""
 
 Bot = Client(
     "Bot",
@@ -40,22 +39,11 @@ async def start(bot, update):
 
 
 @Bot.on_message(filters.private & filters.text)
-async def webtopdf(_, m):
-    url = m.text
-    name = re.sub(r'^\w+://', '', url.lower())
-    name = name.replace('/', '-') + '.pdf'
-    msg = await m.reply("Processing..")
-    try:
-        await pyppdf.save_pdf(name, url)
-    except PageError:
-        return await msg.edit('URL could not be resolved.')
-    except TimeoutError:
-        return await msg.edit('Timeout.')
-    except NetworkError:
-        return await msg.edit('No access to the network.')
-    await m.reply_document(name)
-    await msg.delete()
-    os.remove(name)
+async def from_yturl_or_local_file(_, m):
+    output = m.
+    await m.reply("Processing..")
+    transcribe(m.text, output)
+    await m.reply_document(output)
 
 
 
