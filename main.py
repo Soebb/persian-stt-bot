@@ -1,17 +1,16 @@
 import os
+from dotenv import load_dotenv
 from transcribe_anything.api import transcribe
 from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 
-BOT_TOKEN = ""
-API_ID = ""
-API_HASH = ""
+load_dotenv()
 
 Bot = Client(
-    "Bot",
-    bot_token = BOT_TOKEN,
-    api_id = API_ID,
-    api_hash = API_HASH
+    "PersianTranscriberBot",
+    bot_token = os.environ["BOT_TOKEN"],
+    api_id = int(os.environ["API_ID"]),
+    api_hash = os.environ["API_HASH"]
 )
 
 START_TXT = """
