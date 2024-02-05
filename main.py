@@ -49,7 +49,7 @@ async def from_yturl_or_local_file(_, m):
 async def from_tg_files(_, m):
     msg = await m.reply("Downloading..")
     media = await m.download()
-    await msg.edit("Processing..")
+    await msg.edit_text("Processing..")
     output_name = os.path.basename(media).rsplit('.', 1)[0] + ".txt"
     transcribe(media, output_name)
     await m.reply_document(output_name)
